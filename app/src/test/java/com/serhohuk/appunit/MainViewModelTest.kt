@@ -1,5 +1,6 @@
 package com.serhohuk.appunit
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.serhohuk.appunit.remote.response.CryptoData
 import com.serhohuk.appunit.remote.response.CryptoResponse
@@ -22,6 +23,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+import org.junit.runner.manipulation.Ordering
 import org.junit.runners.model.Statement
 import retrofit2.Response
 import kotlin.coroutines.ContinuationInterceptor
@@ -83,6 +85,16 @@ class MainViewModelTest {
         val viewModel = MainViewModel(useCase)
 
         assertEquals(20, viewModel.getDelayedData())
+    }
+
+    @Test
+    fun `mock context`(){
+        val mockContext = mockk<Context>(relaxed = true)
+        every { mockContext.getString(R.string.app_name) } returns "AppUnitTesting"
+
+        val appName = mockContext.getString(R.string.app_name)
+
+        assertEquals("AppUnitTesting", appName)
     }
 
 
